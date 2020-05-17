@@ -1,0 +1,48 @@
+.error{
+	color: red;
+}
+
+h1{
+	text-align: center;  
+}
+
+label{
+	text-align: right;
+}
+
+th{
+	text-align: center;
+}
+
+th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+table{
+	border: 2px solid black;
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+tr.nagl{
+	background-color: rgb(230, 230, 230);
+}
+
+.powr{
+	margin-left: 500px;
+	margin-right: auto;
+}
+
+.wisla{
+	color: blue;
+}
+
+.cracovia{
+	color: red;
+}
+
+.remis{
+	color: gray;
+}

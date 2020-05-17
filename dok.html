@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="author" content="Maciej Domagalski"/>
+	<title>Dokumentacja</title>
+	<link rel="stylesheet" type="text/css" href="dok_style.css" />
+</head>
+<body>
+	<header>
+		<h1>Dokumentacja</h1>
+	</header>
+	<br/>
+	
+	<a class="powr" href="index.php">Powrót do strony głównej</a>
+	
+	<section id="wstep">
+		<h3>Informacje wstępne</h3>
+		<ul>
+			<li><strong>Tematem projektu jest baza danych zawierająca wyniki meczów piłkarskich Wisła - Cracovia.</strong></li>
+			<li>Testy były wykonywane w przeglądarce Mozilla Firefox</li>
+			<li>Nie udało mi się zrealizować funkcjonalności lokalnej bazy danych ani szablonów.</li>
+		</ul>
+	</section>
+	
+	<section id="tech">
+		<h3>Wykorzystane technologie</h3>
+		<ul>
+			<li>Strona klienta używa HTML, CSS oraz framework Bootstrap (poza dokumentacją)</li>
+			<li>Walidację przeprowadzono na dwa sposoby:
+			<ul>
+				<li>z poziomu klienta: z użyciem JavaScript</li>
+				<li>z poziomu serwera: z użyciem PHP</li>
+			</ul>
+			<li>Połączenie z bazą danych PostgreSQL na serwerze Pascal zrealizowano z użyciem HTTP POST oraz PHP</li>
+			<li>Analiza danych w formie wykresu narysowana została z użyciem Canvas, z pomocą <a href = "http://www.codeblocq.com/2016/04/Create-a-Pie-Chart-with-HTML5-canvas/">tego poradnika</a></li>
+		</ul>
+	</section>
+	
+	<section id="struktura">
+		<h3>Struktura plików i katalogów</h3>
+		<ul>
+			<li>login.php (strona logowania)</li>
+			<li>logout.php (wylogowuje) </li>
+			<li>index.php (strona główna)</li>
+			<li>nowy.php (wprowadzanie rekordów do bazy na serwerze)</li>
+			<li>zapisane.html (informuje o poprawnym zapisie) </li>
+			<li>lista.php (wyświetlanie rekordów)</li>
+			<li>wykres.php (analiza danych w formie wykresu kołowego)</li>
+			<li>dok.html (dokumentacja którą Pan właśnie czyta)</li>
+			<li>script (skrypt obsługujący walidacje i rysowanie wykresu)</li>
+			<li>style.css (arkusz styli do wszystkich plików html i php poza dokumentacją)</li>
+			<li>dok_style.css (arkusz styli do dokumentacji)</li>
+		</ul>
+	</section>
+	
+	<section id="fun">
+		<h3>Funkcje i zapytania do bazy</h3>
+		
+		<h4>Plik <em>login.php</em> - logowanie</h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcjonalność</th>
+				<th>Opis</th>
+			</tr>
+			
+			<tr>
+				<td><em>funkcja test_input($data)</em></td>
+				<td>Czyści string.</td>
+			</tr>
+			
+			<tr>
+				<td>Sprawdzanie sesji</td>
+				<td>Sprawdza, czy zmienna sesyjna ma wartość 1, czyli zalogowaną.<br/>
+				Jeśli tak, to przekierowuje na stronę główną.<br/>
+			</tr>
+
+			
+			<tr>
+				<td>zapytanie <code>SET search_path TO ti2</code></td>
+				<td>Zmienia schemat na ti2.</td>
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>SELECT id_adm FROM admin WHERE nazwa = '$login' AND haslo = '$pass'</code></td>
+				<td>Sprawdza, czy istnieje administrator o podanych w formularzu danych.<br/>
+					Jeśli tak, ustawia sesję i przekierowuje na stronę główną. <br/>
+					Jeśli nie, wyświetla błąd.</td>
+				
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: index.php" oraz exit()</em></td>
+				<td>Przekierowuje na stronę główną.</td>
+			</tr>
+		</table>
+
+		<h4>Plik <em>script.js</em> - walidacja i rysowanie</h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcja</th>
+				<th>Opis</th>
+			</tr>
+			
+			<tr>
+				<td><em>Walidacja()</em></td>
+				<td>Sprawdza, czy wszystkie pola zostały wpisane oraz czy liczba bramek obu ekip jest liczbą całkowitą z przedziału &lt;0, 9&gt;.<br/>
+					Jeśli nie, to blokuje wysyłanie zapytania i wyświetla błędy.</td>
+			</tr>	
+			
+			<tr>
+				<td><em>rysuj()</em></td>
+				<td>Sprawdza ile razy wygrała Wisła, ile razy Cracovia a ile razy padł remis, a następnie oblicza odsetek każdego przypadku.<br/>
+					Tak sporządzone odsetki zapisuje w postaci kątów (po przemnożeniu przez 2*Math.PI),<br/>
+					które potem wykorzystuje w rysowaniu wykresu, dla każdego przypadku przyporządkowując inny kolor.</td>
+			</tr>
+		</table><br/>
+		
+		<h4>Plik <em>index.php</em> - strona główna </h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcjonalność</th>
+				<th>Opis</th>
+			</tr>
+			
+			<tr>
+				<td>Sprawdzanie sesji</td>
+				<td>Sprawdza, czy zmienna sesyjna ma wartość 1, czyli zalogowaną.<br/>
+				Jeśli nie, to przekierowuje na stronę logowania.<br/>
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: login.php" oraz exit()</em></td>
+				<td>Przekierowuje na stronę logowania.</td>
+			</tr>
+		</table>
+		
+		<h4>Plik <em>nowy.php</em> - walidacja i zapytanie</h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcjonalność</th>
+				<th>Opis</th>
+			</tr>
+			
+						<tr>
+				<td>Sprawdzanie sesji</td>
+				<td>Sprawdza, czy zmienna sesyjna ma wartość 1, czyli zalogowaną.<br/>
+				Jeśli nie, to przekierowuje na stronę logowania.<br/>
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: login.php" oraz exit()</em></td>
+				<td>Przekierowuje na stronę logowania.</td>
+			</tr>
+			
+			<tr>
+				<td><em>funkcja test_input($data)</em></td>
+				<td>Czyści string.</td>
+			</tr>
+			
+			<tr>
+				<td>Walidacja</td>
+				<td>Sprawdza, czy wszystkie pola zostały wpisane oraz czy liczba bramek obu ekip<br/>
+				jest liczbą całkowitą z przedziału &lt;0, 9&gt;.<br/>
+				Jeśli tak, to zapisuje wartości pól do zmiennych <code>$data, $wisla, $cracovia</code> i wysyła zapytanie.</td>
+			</tr>
+
+			
+			<tr>
+				<td>zapytanie <code>SET search_path TO ti2</code></td>
+				<td>Zmienia schemat na ti2.</td>
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>INSERT INTO mecz(data, bramki_wis, bramki_cra) VALUES('$data', '$wisla', '$cracovia')</code></td>
+				<td>Wysyła przygotowane dane do tabeli <em>mecz</em> w bazie danych.</td>
+				
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: zapisane.html" oraz exit()</em></td>
+				<td>Przekierowuje na stronę <em>zapisane.html</em>.</td>
+			</tr>
+		</table>	
+		
+		<h4>Plik <em>lista.php</em> - wyświetlanie rekordów</h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcjonalność</th>
+				<th>Opis</th>
+			</tr>
+
+
+			<tr>
+				<td>Sprawdzanie sesji</td>
+				<td>Sprawdza, czy zmienna sesyjna ma wartość 1, czyli zalogowaną.<br/>
+				Jeśli nie, to przekierowuje na stronę logowania.<br/>
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: login.php" oraz exit()</em></td>
+				<td>Przekierowuje na stronę logowania.</td>
+			</tr>
+			<tr>
+				<td>zapytanie <code>SET search_path TO ti2</code></td>
+				<td>Zmienia schemat na ti2.</td>
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>SELECT COUNT(*) FROM mecz</code></td>
+				<td>Liczy ile jest meczów, aby iterować po tej liczbie.</td>
+				
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>SELECT * FROM mecz ORDER BY data</code></td>
+				<td>Pobiera dane, które będą listowane.</td>
+			</tr>
+			
+			<tr>
+				<td>wyświetlanie danych</td>
+				<td>Pobiera wszystkie pola z danego wiersza i wpisuje je do tabeli.<br/>
+				Jeśli nie ma żadnych danych, wyświetla taką informację.</td>
+		</table>	
+		
+		<h4>Plik <em>wykres.php</em> - przygotowanie danych do wykresu kołowego</h4>
+		<table>
+			<tr class="nagl">
+				<th>Funkcjonalność</th>
+				<th>Opis</th>
+			</tr>
+
+			<tr>
+				<td>Sprawdzanie sesji</td>
+				<td>Sprawdza, czy zmienna sesyjna ma wartość 1, czyli zalogowaną.<br/>
+				Jeśli nie, to przekierowuje na stronę logowania.<br/>
+			</tr>
+			
+			<tr>
+				<td><em>header: "Location: login.php" oraz exit()</em></td>
+				<td>Przekierowuje na stronę logowania.</td>
+			</tr>
+
+			<tr>
+				<td>zapytanie <code>SET search_path TO ti2</code></td>
+				<td>Zmienia schemat na ti2.</td>
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>SELECT COUNT(*) FROM mecz</code></td>
+				<td>Liczy ile jest meczów, aby iterować po tej liczbie.</td>
+				
+			</tr>
+			
+			<tr>
+				<td>zapytanie <code>SELECT (bramki_wis - bramki_cra) AS wynik FROM mecz</code></td>
+				<td>Pobiera wyniki meczów. Liczba dodatnia oznacza wygraną Wisły, ujemna - wygraną Cracovii, a zero - remis.</td>
+			</tr>
+			
+			<tr>
+				<td>wyświetlanie wyników</td>
+				<td>Liczy, ile razy pada dany przypadek oraz wyświetla to na stronie. <br/>
+				Te liczby są potem pobierane przez plik <em>script.js</em> w celu sporządzenia wykresu.</td>
+		</table>	
+	</section>
+	<a class="powr" href="index.php">Powrót do strony głównej</a>
+</body>

@@ -1,0 +1,39 @@
+body{
+	background-color: rgb(200,200,200);
+	color: rgb(0,0,150);
+	font-family: arial;
+	margin-right: 70px;
+	margin-left: 70px;
+}
+
+header{
+	font-weight: bold;
+	font-size: 15pt;
+	text-align: center;
+	border: 5px solid rgb(0,0,150);
+}
+
+h3, h4{
+	text-align: center;
+}
+
+
+table{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table, th, tr, td{
+	border: 2px solid rgb(0,0,150);
+	border-collapse: collapse;
+}
+
+.nagl{
+	background-color: white;
+}
+
+.powr{
+	font-weight: bold;
+	font-size: 25px;
+	color: red;
+}

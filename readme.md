@@ -1,0 +1,1 @@
+Wymaga połączenia z bazą danych (oryginalnie była to baza wydziałowa)
